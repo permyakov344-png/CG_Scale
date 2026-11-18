@@ -133,8 +133,11 @@ arduino-cli upload  --fqbn esp32:esp32:esp32 -p COM21 "C:\Users\user\Documents\A
 ## Автосохранение в GitHub
 
 Раз в неделю, в понедельник в 12:00, задача Windows `CG_Scale weekly backup`
-делает `git add`, `git commit` и `git push`, если в проекте были изменения.
-Лог — `..\sketch_CG_backups\weekly-backup.log`.
+делает commit локальных изменений, забирает изменения с GitHub (`git pull
+--rebase`) и отправляет всё обратно (`git push`). Лог —
+`..\sketch_CG_backups\weekly-backup.log`.
+
+Синхронизировать вручную: двойной клик по `tools\sync-now.cmd`.
 
 Установить или переустановить задачу:
 
@@ -153,6 +156,38 @@ Get-ScheduledTask -TaskName "CG_Scale weekly backup"
 Если компьютер был выключен в понедельник, задача выполнится при следующем
 входе в систему. Автосохранение не зависит от OpenCode — оно работает само.
 
+## Как продолжить на другом компьютере
+
+Проект лежит на GitHub, поэтому на домашнем компьютере достаточно клонировать
+репозиторий. Важно: папка должна называться `sketch_CG`, иначе Arduino IDE
+не откроет `sketch_CG.ino`.
+
+1. Установи Git, OpenCode и GitHub CLI.
+2. Войди в GitHub (один раз):
+
+   ```powershell
+   gh auth login
+   gh auth setup-git
+   ```
+
+   Выбирай GitHub.com → HTTPS → Login with a web browser.
+
+3. Клонируй проект в папку `sketch_CG`:
+
+   ```powershell
+   cd "$env:USERPROFILE\Documents\Arduino"
+   git clone https://github.com/permyakov344-png/CG_Scale.git sketch_CG
+   ```
+
+4. Открой OpenCode → **Open Folder** → выбери
+   `...\Documents\Arduino\sketch_CG`.
+5. Перед работой и после неё запускай `tools\sync-now.cmd` (двойной клик) —
+   он забирает изменения с другого компьютера и отправляет твои.
+
+Для компиляции и прошивки на домашнем компьютере нужны Arduino IDE/CLI,
+ESP32 core и библиотеки Adafruit GFX + Adafruit ST7789. Путь в командах
+`arduino-cli` из раздела «Сборка и прошивка» замени на свой.
+
 ## Файлы
 
 - `sketch_CG.ino` — основной код (v6.40).
@@ -164,6 +199,7 @@ Get-ScheduledTask -TaskName "CG_Scale weekly backup"
 - `geometry_x1_x2_x3.svg` — схема геометрии опор.
 - `docs/screens/` — фото экрана и железа, `demo.gif` для README.
 - `tools/make_gallery.py` — пересборка `demo.gif` из `docs/screens/`.
-- `tools/weekly-backup.ps1` — еженедельный commit + push.
+- `tools/weekly-backup.ps1` — еженедельный commit + pull + push.
+- `tools/sync-now.cmd` — то же самое вручную, двойным кликом.
 - `tools/install-weekly-task.ps1` — установка задачи в Планировщик Windows.
 - `..\sketch_CG_backups\` — бэкапы прошивок (вне папки скетча).

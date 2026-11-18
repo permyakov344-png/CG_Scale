@@ -1,4 +1,4 @@
-# Weekly auto-save of the CG_Scale project to GitHub.
+# Weekly auto-save / sync of the CG_Scale project with GitHub.
 # Runs from Windows Task Scheduler; OpenCode does not need to be open.
 $ErrorActionPreference = "Stop"
 
@@ -33,11 +33,16 @@ try {
     $changes = Invoke-Git @("status", "--porcelain")
     if ($changes) {
         Invoke-Git @("commit", "-m", "Auto-save $(Get-Date -Format 'yyyy-MM-dd HH:mm')") | Out-Null
-        Invoke-Git @("push", "origin", "main") | Out-Null
-        Write-Log "committed and pushed: $(@($changes).Count) file(s)"
+        Write-Log "committed: $(@($changes).Count) file(s)"
     } else {
-        Write-Log "no changes"
+        Write-Log "no local changes"
     }
+
+    # Pick up commits made on another computer, then send ours.
+    Invoke-Git @("pull", "--rebase", "origin", "main") | Out-Null
+    Invoke-Git @("push", "origin", "main") | Out-Null
+    Write-Log "synced with origin/main"
 } catch {
     Write-Log "ERROR: $_"
+    & git rebase --abort 2>&1 | Out-File -Append -Encoding utf8 $log
 }
