@@ -1,0 +1,43 @@
+# Weekly auto-save of the CG_Scale project to GitHub.
+# Runs from Windows Task Scheduler; OpenCode does not need to be open.
+$ErrorActionPreference = "Stop"
+
+$repo = Split-Path -Parent $PSScriptRoot
+$logDir = Join-Path (Split-Path -Parent $repo) "sketch_CG_backups"
+New-Item -ItemType Directory -Force -Path $logDir | Out-Null
+$log = Join-Path $logDir "weekly-backup.log"
+
+if ((Test-Path $log) -and ((Get-Item $log).Length -gt 1MB)) {
+    Move-Item -Force $log "$log.old"
+}
+
+function Write-Log($msg) {
+    "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')  $msg" | Out-File -Append -Encoding utf8 $log
+}
+
+function Invoke-Git([string[]]$gitArgs) {
+    $out = & git @gitArgs 2>&1
+    $code = $LASTEXITCODE
+    if ($out) { $out | Out-File -Append -Encoding utf8 $log }
+    if ($code -ne 0) { throw "git $($gitArgs -join ' ') exited $code" }
+    return $out
+}
+
+Set-Location $repo
+$env:GIT_TERMINAL_PROMPT = "0"
+$env:GCM_INTERACTIVE = "Never"
+Write-Log "===== start ====="
+
+try {
+    Invoke-Git @("add", "-A") | Out-Null
+    $changes = Invoke-Git @("status", "--porcelain")
+    if ($changes) {
+        Invoke-Git @("commit", "-m", "Auto-save $(Get-Date -Format 'yyyy-MM-dd HH:mm')") | Out-Null
+        Invoke-Git @("push", "origin", "main") | Out-Null
+        Write-Log "committed and pushed: $(@($changes).Count) file(s)"
+    } else {
+        Write-Log "no changes"
+    }
+} catch {
+    Write-Log "ERROR: $_"
+}
