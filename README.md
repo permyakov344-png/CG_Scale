@@ -132,7 +132,7 @@ arduino-cli upload  --fqbn esp32:esp32:esp32 -p COM21 "C:\Users\user\Documents\A
 
 ## Автосохранение в GitHub
 
-Раз в неделю, в воскресенье в 12:00, задача Windows `CG_Scale weekly backup`
+Раз в неделю, в понедельник в 12:00, задача Windows `CG_Scale weekly backup`
 делает `git add`, `git commit` и `git push`, если в проекте были изменения.
 Лог — `..\sketch_CG_backups\weekly-backup.log`.
 
@@ -150,7 +150,7 @@ powershell -ExecutionPolicy Bypass -File tools\install-weekly-task.ps1
 Get-ScheduledTask -TaskName "CG_Scale weekly backup"
 ```
 
-Если компьютер был выключен в воскресенье, задача выполнится при следующем
+Если компьютер был выключен в понедельник, задача выполнится при следующем
 входе в систему. Автосохранение не зависит от OpenCode — оно работает само.
 
 ## Файлы
