@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Схема геометрии весов CG (v5.4). Вид сверху, нос модели вверху.
+     Масштаб условный. Перерисована по эскизу пользователя
+     "рисунок для меню растояние": передняя опора - две площадки над
+     датчиками 1 и 2, X1 показан двумя стрелками (по одной с каждой стороны). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 660" font-family="Consolas, Arial, sans-serif">
+  <rect width="760" height="660" fill="#0B1420"/>
+
+  <!-- заголовок -->
+  <text x="380" y="34" text-anchor="middle" font-size="22" fill="#DCE6F2" font-weight="bold">Геометрия весов CG — вид сверху</text>
+  <text x="380" y="58" text-anchor="middle" font-size="14" fill="#93A5BC">нос модели сверху, масштаб условный</text>
+
+  <line x1="380" y1="70" x2="380" y2="470" stroke="#33415C" stroke-width="2" stroke-dasharray="8 8"/>
+  <text x="380" y="66" text-anchor="middle" font-size="13" fill="#5C6E86">ЦЕНТРОВАЯ ЛИНИЯ</text>
+
+  <!-- передняя опора: две площадки над датчиками 1 и 2, нос между ними -->
+  <polygon points="380,80 324,120 436,120" fill="#8A93A6"/>
+  <line x1="100" y1="120" x2="324" y2="120" stroke="#E07B00" stroke-width="10" stroke-linecap="butt"/>
+  <line x1="436" y1="120" x2="660" y2="120" stroke="#E07B00" stroke-width="10" stroke-linecap="butt"/>
+  <text x="380" y="150" text-anchor="middle" font-size="13" fill="#B8CCDE">ПЕРЕДНЯЯ ОПОРА</text>
+
+  <!-- датчики: 1 - левый, 2 - правый, 3 - задний -->
+  <circle cx="245" cy="190" r="32" fill="#14202F" stroke="#4FC3F7" stroke-width="3"/>
+  <text x="245" y="199" text-anchor="middle" font-size="30" fill="#4FC3F7" font-weight="bold">1</text>
+  <circle cx="515" cy="190" r="32" fill="#14202F" stroke="#4FC3F7" stroke-width="3"/>
+  <text x="515" y="199" text-anchor="middle" font-size="30" fill="#4FC3F7" font-weight="bold">2</text>
+  <circle cx="380" cy="430" r="32" fill="#14202F" stroke="#4FC3F7" stroke-width="3"/>
+  <text x="380" y="439" text-anchor="middle" font-size="30" fill="#4FC3F7" font-weight="bold">3</text>
+  <text x="245" y="240" text-anchor="middle" font-size="13" fill="#93A5BC">ЛЕВЫЙ</text>
+  <text x="515" y="240" text-anchor="middle" font-size="13" fill="#93A5BC">ПРАВЫЙ</text>
+  <text x="440" y="439" text-anchor="start" font-size="13" fill="#93A5BC">ЗАДНИЙ (считает ЦТ)</text>
+
+  <!-- ========== размерные линии ========== -->
+  <!-- X1: две вертикальные двойные стрелки от площадок опоры до датчиков 1 и 2 -->
+  <line x1="152" y1="120" x2="152" y2="158" stroke="#4FC3F7" stroke-width="3"/>
+  <polygon points="152,120 140,138 164,138" fill="#4FC3F7"/>
+  <polygon points="152,158 140,140 164,140" fill="#4FC3F7"/>
+  <text x="108" y="146" text-anchor="middle" font-size="17" fill="#B8CCDE" font-weight="bold">X1</text>
+
+  <line x1="608" y1="120" x2="608" y2="158" stroke="#4FC3F7" stroke-width="3"/>
+  <polygon points="608,120 596,138 620,138" fill="#4FC3F7"/>
+  <polygon points="608,158 596,140 620,140" fill="#4FC3F7"/>
+  <text x="652" y="146" text-anchor="middle" font-size="17" fill="#B8CCDE" font-weight="bold">X1</text>
+
+  <!-- X2: вертикальная двойная стрелка между датчиками 1,2 и датчиком 3 -->
+  <line x1="380" y1="222" x2="380" y2="398" stroke="#4FC3F7" stroke-width="3"/>
+  <polygon points="380,222 368,240 392,240" fill="#4FC3F7"/>
+  <polygon points="380,398 368,380 392,380" fill="#4FC3F7"/>
+  <text x="416" y="316" font-size="17" fill="#B8CCDE" font-weight="bold">X2</text>
+
+  <!-- X3: горизонтальная двойная стрелка между датчиками 1 и 2 -->
+  <line x1="281" y1="190" x2="479" y2="190" stroke="#4FC3F7" stroke-width="3"/>
+  <polygon points="281,190 299,178 299,202" fill="#4FC3F7"/>
+  <polygon points="479,190 461,178 461,202" fill="#4FC3F7"/>
+  <text x="380" y="176" text-anchor="middle" font-size="17" fill="#B8CCDE" font-weight="bold">X3</text>
+
+  <!-- ========== подписи размеров ========== -->
+  <g font-size="14" fill="#93A5BC">
+    <text x="30" y="500">X1 = 50 мм  — от передней опоры до датчиков 1 и 2</text>
+    <text x="30" y="522">(одно расстояние на оба датчика, поэтому стрелок две)</text>
+    <text x="30" y="554">X2 = 200 мм — от заднего датчика 3 до датчиков 1 и 2</text>
+    <text x="30" y="586">X3 = 200 мм — между датчиками 1 и 2 (поперечное, в расчётах</text>
+    <text x="30" y="608">не участвует, хранится для справки)</text>
+  </g>
+
+  <!-- формула -->
+  <g font-size="15" fill="#DCE6F2">
+    <rect x="30" y="622" width="700" height="30" rx="8" fill="#101C2E" stroke="#2A3A52" stroke-width="2"/>
+    <text x="380" y="642" text-anchor="middle" font-weight="bold">W = w1 + w2 + w3        ЦТ = X1 + (w3 * X2) / W</text>
+  </g>
+</svg>

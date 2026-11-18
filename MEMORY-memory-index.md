@@ -1,0 +1,1 @@
+- [Проект «Весы CG»](cg-scale-project.md) — весы центра тяжести на ESP32; код и статус в Documents\Arduino\sketch_CG\
