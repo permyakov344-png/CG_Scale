@@ -16,14 +16,12 @@ function Write-Log($msg) {
 }
 
 function Invoke-Git([string[]]$gitArgs) {
-    $oldEap = $ErrorActionPreference
-    $ErrorActionPreference = "Continue"
-    try {
-        $out = & git @gitArgs 2>&1
-        $code = $LASTEXITCODE
-    } finally {
-        $ErrorActionPreference = $oldEap
+    $parts = foreach ($a in $gitArgs) {
+        if ($a -match '[\s"]') { '"' + ($a -replace '"', '\"') + '"' } else { $a }
     }
+    $cmdLine = "git " + ($parts -join ' ') + " 2>&1"
+    $out = & cmd.exe /c $cmdLine
+    $code = $LASTEXITCODE
     if ($out) { $out | Out-File -Append -Encoding utf8 $log }
     if ($code -ne 0) { throw "git $($gitArgs -join ' ') exited $code" }
     return $out
@@ -52,7 +50,6 @@ try {
     Write-Log "ERROR: $_"
     if ((Test-Path (Join-Path $repo ".git\rebase-merge")) -or
         (Test-Path (Join-Path $repo ".git\rebase-apply"))) {
-        $ErrorActionPreference = "Continue"
-        & git rebase --abort 2>&1 | Out-File -Append -Encoding utf8 $log
+        & cmd.exe /c "git rebase --abort 2>&1" | Out-File -Append -Encoding utf8 $log
     }
 }
