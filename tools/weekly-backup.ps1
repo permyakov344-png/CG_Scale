@@ -16,8 +16,14 @@ function Write-Log($msg) {
 }
 
 function Invoke-Git([string[]]$gitArgs) {
-    $out = & git @gitArgs 2>&1
-    $code = $LASTEXITCODE
+    $oldEap = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    try {
+        $out = & git @gitArgs 2>&1
+        $code = $LASTEXITCODE
+    } finally {
+        $ErrorActionPreference = $oldEap
+    }
     if ($out) { $out | Out-File -Append -Encoding utf8 $log }
     if ($code -ne 0) { throw "git $($gitArgs -join ' ') exited $code" }
     return $out
@@ -44,5 +50,9 @@ try {
     Write-Log "synced with origin/main"
 } catch {
     Write-Log "ERROR: $_"
-    & git rebase --abort 2>&1 | Out-File -Append -Encoding utf8 $log
+    if ((Test-Path (Join-Path $repo ".git\rebase-merge")) -or
+        (Test-Path (Join-Path $repo ".git\rebase-apply"))) {
+        $ErrorActionPreference = "Continue"
+        & git rebase --abort 2>&1 | Out-File -Append -Encoding utf8 $log
+    }
 }
