@@ -137,7 +137,8 @@ arduino-cli upload  --fqbn esp32:esp32:esp32 -p COM21 "C:\Users\user\Documents\A
 --rebase`) и отправляет всё обратно (`git push`). Лог —
 `..\sketch_CG_backups\weekly-backup.log`.
 
-Синхронизировать вручную: двойной клик по `tools\sync-now.cmd`.
+Синхронизировать вручную: двойной клик по `tools\sync-now.cmd` или скажи
+агенту «синхронизируй с GitHub» (есть команда `/sync`).
 
 Установить или переустановить задачу:
 
